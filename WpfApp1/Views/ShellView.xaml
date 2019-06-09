@@ -1,0 +1,110 @@
+﻿<Window x:Class="ReSourcer.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ReSourcer.Views"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="Sourcerer" Height="450" Width="800" WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        SizeToContent="WidthAndHeight"
+        >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <!-- Row 0 -->
+        <materialDesign:ColorZone Mode="PrimaryLight" Grid.Row="0" Grid.ColumnSpan="7"
+                                  Padding="20" CornerRadius="3" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                  Margin="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0">
+                    <ComboBox x:Name="GameManagerModels" Margin="5"
+                          SelectedItem="{Binding Path=SelectedGameManagerModel, Mode=TwoWay}"
+                          DisplayMemberPath="GameName"
+                          FontWeight="Bold" FontSize="20"/>
+                    <Button x:Name="StartSelectedGame" Margin="5">Start Game</Button>
+                </StackPanel>
+            </Grid>
+        </materialDesign:ColorZone>
+
+        <!-- Row 1 -->
+        <StackPanel Grid.Row="1" Grid.Column="1"  >
+            <materialDesign:Card Margin="5">
+                <StackPanel>
+                    <TextBlock Margin="5" HorizontalAlignment="Center"
+                               FontSize="16" FontStretch="Expanded">Add Game Manager</TextBlock>
+                    <TextBox x:Name="TxtBxGameName" materialDesign:HintAssist.Hint="Enter game name..." 
+                     Margin="5" ToolTip="e.g. Left 4 Dead 2" MaxWidth="300" />
+                    <TextBox x:Name="TxtBxRecordCommand" Margin="5" MaxWidth="300"
+                     materialDesign:HintAssist.Hint='Enter record command...'
+                     ToolTip='Can also leave blank for default' />
+                    <Button Margin="5" x:Name="AddManager">Add Manager</Button>
+                </StackPanel>
+            </materialDesign:Card>
+        </StackPanel>
+        <materialDesign:Card Grid.Row="1" Grid.Column="2" Margin="5" MaxWidth="400">
+            <StackPanel Margin="5" >
+                <TextBlock HorizontalAlignment="Center"
+                               FontSize="16" FontStretch="Expanded">Game Information</TextBlock>
+                <TextBlock TextDecorations="Underline" FontSize="16">Game Path</TextBlock>
+                <TextBlock x:Name="TxtBlkGamePath" Margin="5" TextWrapping="WrapWithOverflow"></TextBlock>
+                <TextBlock TextDecorations="Underline" FontSize="16" >Game Exe</TextBlock>
+                <TextBlock x:Name="TxtBlkGameExe" Margin="5" TextWrapping="WrapWithOverflow"></TextBlock>
+                <TextBlock TextDecorations="Underline" FontSize="16" >Demos Directory</TextBlock>
+                <TextBlock x:Name="TxtBlkDemoDir" Margin="5" TextWrapping="WrapWithOverflow"></TextBlock>
+                <TextBlock TextDecorations="Underline" FontSize="16" >Game Autoexec</TextBlock>
+                <TextBlock x:Name="TxtBlkAutoexec" Margin="5" TextWrapping="WrapWithOverflow"></TextBlock>
+                <Button x:Name="DeleteManager" Content="{Binding Path=DeleteBtnGameName}"/>
+            </StackPanel>
+        </materialDesign:Card>
+        <materialDesign:Card Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Margin="5" 
+                             MaxHeight="700" MaxWidth="900">
+            <StackPanel Margin="5">
+                <TextBlock HorizontalAlignment="Center"
+                               FontSize="16" FontStretch="Expanded">Demo Information</TextBlock>
+                <TextBlock Width="300" x:Name="TxtBlkDemoInfo" TextWrapping="WrapWithOverflow"
+                       Margin="5"></TextBlock>
+                <ListView ItemsSource="{Binding Demos}" MaxHeight="400">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding MapName}" Header="Map" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Date}" Header="Date" />
+                            <GridViewColumn DisplayMemberBinding="{Binding TickRate}" Header="Tick Rate" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Ticks}" Header="Total Ticks" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="Time" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Path}" Header="File" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+        </materialDesign:Card>
+    </Grid>
+</Window>
