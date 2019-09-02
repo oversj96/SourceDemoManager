@@ -19,6 +19,9 @@ namespace ReSourcer
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             DisplayRootViewFor<ShellViewModel>();
+
+            
         }
+
     }
 }

@@ -13,13 +13,15 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Sourcerer" Height="450" Width="800" WindowStartupLocation="CenterScreen"
+        Title="Sourcerer" Height="564.991" Width="789.753" WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
         SizeToContent="WidthAndHeight"
+        
         >
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="11.801"/>
+            <ColumnDefinition Width="8.199"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
@@ -37,26 +39,28 @@
         </Grid.RowDefinitions>
 
         <!-- Row 0 -->
-        <materialDesign:ColorZone Mode="PrimaryLight" Grid.Row="0" Grid.ColumnSpan="7"
+        <materialDesign:ColorZone Mode="PrimaryLight" Grid.Row="0" Grid.ColumnSpan="8"
                                   Padding="20" CornerRadius="3" materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                  Margin="2">
+                                  Margin="2,2,2,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0">
-                    <ComboBox x:Name="GameManagerModels" Margin="5"
+                <ComboBox x:Name="GameManagerModels" Margin="5" Grid.Row="0" Grid.Column="0"
                           SelectedItem="{Binding Path=SelectedGameManagerModel, Mode=TwoWay}"
                           DisplayMemberPath="GameName"
                           FontWeight="Bold" FontSize="20"/>
-                    <Button x:Name="StartSelectedGame" Margin="5">Start Game</Button>
-                </StackPanel>
+                <TextBox Margin="5" Grid.Row="0" Grid.Column="1" FontStretch="Expanded"
+                             materialDesign:HintAssist.Hint="Add launch parameters" ToolTip="e.g. -novid"
+                             Text="{Binding Path=SelectedGameManagerModel.LaunchArgs, Mode=TwoWay}"/>
+                <Button x:Name="StartSelectedGame" Margin="5" Grid.Row="0" Grid.Column="2">Start Game</Button>
             </Grid>
         </materialDesign:ColorZone>
 
         <!-- Row 1 -->
-        <StackPanel Grid.Row="1" Grid.Column="1"  >
+        <StackPanel Grid.Row="1" Grid.Column="2">
             <materialDesign:Card Margin="5">
                 <StackPanel>
                     <TextBlock Margin="5" HorizontalAlignment="Center"
@@ -69,8 +73,16 @@
                     <Button Margin="5" x:Name="AddManager">Add Manager</Button>
                 </StackPanel>
             </materialDesign:Card>
+            <materialDesign:ColorZone Mode="PrimaryDark" Grid.Row="0" Grid.Column="2" CornerRadius="5" 
+                                      Margin="5" Height="50">
+                <StackPanel VerticalAlignment="Bottom">
+                    <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" x:Name="LaunchForSteam" 
+                                  IsEnabled="{Binding CanLaunchForSteam}" ToolTip="Makes it so steam can launch the recorder"/>
+                    <TextBlock Margin="5" FontSize="12" TextWrapping="WrapWithOverflow">Automatically launch recorder functionality with steam.</TextBlock>
+                </StackPanel>
+            </materialDesign:ColorZone>
         </StackPanel>
-        <materialDesign:Card Grid.Row="1" Grid.Column="2" Margin="5" MaxWidth="400">
+        <materialDesign:Card Grid.Row="1" Grid.Column="3" Margin="5" MaxWidth="400" Grid.ColumnSpan="2">
             <StackPanel Margin="5" >
                 <TextBlock HorizontalAlignment="Center"
                                FontSize="16" FontStretch="Expanded">Game Information</TextBlock>
@@ -85,25 +97,36 @@
                 <Button x:Name="DeleteManager" Content="{Binding Path=DeleteBtnGameName}"/>
             </StackPanel>
         </materialDesign:Card>
-        <materialDesign:Card Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Margin="5" 
+        <materialDesign:Card Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="5" Margin="5,5,5,0" 
                              MaxHeight="700" MaxWidth="900">
             <StackPanel Margin="5">
-                <TextBlock HorizontalAlignment="Center"
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Center" Grid.Column="1" Margin="5"
                                FontSize="16" FontStretch="Expanded">Demo Information</TextBlock>
-                <TextBlock Width="300" x:Name="TxtBlkDemoInfo" TextWrapping="WrapWithOverflow"
-                       Margin="5"></TextBlock>
-                <ListView ItemsSource="{Binding Demos}" MaxHeight="400">
+                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" FontStretch="Expanded"
+                               FontSize="16" Margin="5" x:Name="DemoCountBadge"/>
+                </Grid>
+
+
+                <ListView x:Name="Demos" MaxHeight="400">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding MapName}" Header="Map" />
                             <GridViewColumn DisplayMemberBinding="{Binding Date}" Header="Date" />
                             <GridViewColumn DisplayMemberBinding="{Binding TickRate}" Header="Tick Rate" />
                             <GridViewColumn DisplayMemberBinding="{Binding Ticks}" Header="Total Ticks" />
-                            <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="Time" />
+                            <GridViewColumn DisplayMemberBinding="{Binding TimeInMinutes}" Header="Time" />
                             <GridViewColumn DisplayMemberBinding="{Binding Path}" Header="File" />
                         </GridView>
                     </ListView.View>
                 </ListView>
+                <materialDesign:Snackbar HorizontalAlignment="Stretch" MessageQueue="{Binding Snackbar}" 
+                                         Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="6" Margin="5"/>
             </StackPanel>
         </materialDesign:Card>
     </Grid>

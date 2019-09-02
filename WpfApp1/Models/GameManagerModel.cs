@@ -1,4 +1,5 @@
 ﻿using System;
+using Manager;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,19 @@ namespace ReSourcer.Models
 
         public string RecordCommand { get; set; }
 
+        private string _launchArgs;
+
+        public string LaunchArgs
+        {
+            get { return _launchArgs; }
+            set
+            {
+                _launchArgs = value;
+                instance.LaunchArgs = value;
+            }
+        }
+
+
         public GameManagerModel(GameManager manager)
         {
             instance = manager;
@@ -34,11 +48,12 @@ namespace ReSourcer.Models
             this.GameExe = manager.GameExe;
             this.DemosDirectory = manager.DemosDirectory;
             this.RecordCommand = manager.RecordCommand;
+            this.LaunchArgs = manager.LaunchArgs;
         }
 
-        public void Start()
+        public void Start(string extraArgs)
         {
-            instance.Start();
+            instance.Start(extraArgs);
         }
     }
 }
